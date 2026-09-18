@@ -188,10 +188,8 @@ fn handle_conn(mut stream: TcpStream) {
             return;
         }
     };
-    let token_ok = match header_token.as_deref().or_else(|| get_query_param(query, "token").as_deref()) {
-        Some(t) => constant_time_eq(t.as_bytes(), token_expected.as_bytes()),
-        None => false,
-    };
+    let provided_token = header_token.or_else(|| get_query_param(query, "token"));
+    let token_ok = matches!(provided_token.as_deref(), Some(t) if constant_time_eq(t.as_bytes(), token_expected.as_bytes()));
     if !token_ok {
         respond(
             &mut stream,
