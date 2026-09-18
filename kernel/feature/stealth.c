@@ -1,3 +1,5 @@
+#include <linux/cache.h>
+#include <linux/compiler.h>
 #include <linux/init.h>
 #include <linux/kernel.h>
 #include <linux/printk.h>
